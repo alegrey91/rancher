@@ -103,7 +103,6 @@ func (uas *Store) Create(ctx context.Context,
 	lastActivity := metav1.Now()
 	// retrieve setting for auth-user-session-idle-ttl-minutes
 	idleTimeout := settings.AuthUserSessionIdleTTLMinutes.GetInt()
-	fmt.Println("user:", token.UserID)
 
 	return uas.create(ctx, objUserActivity, token, token.UserID, lastActivity, idleTimeout)
 }
@@ -135,7 +134,6 @@ func (uas *Store) create(_ context.Context,
 	newIdleTimeout := metav1.Time{
 		Time: lastActivity.Local().Add(time.Minute * time.Duration(authUserSessionIdleTTLMinutes)),
 	}
-	fmt.Println("new idle timeout:", newIdleTimeout.String())
 	token.LastIdleTimeout = newIdleTimeout
 	userActivity.Status.LastActivity = lastActivity.String()
 	userActivity.Status.CurrentTimeout = newIdleTimeout.String()
